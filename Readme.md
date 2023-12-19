@@ -4,7 +4,7 @@ This is a Spring Boot project for a Subscription Management System. It provides 
 
 ## Sequence Diagram
 
-![Alt Text](Sequence_Diagram.png)
+![Sequence Diagram](outputViews\images\Sequence_Diagram.png)
 
 ## Table of Contents
 
@@ -44,10 +44,38 @@ Make sure you have the following installed on your machine:
    The application will start on http://localhost:8081.
 
 **Endpoints**
-POST /api/subscription: Create new subscriptions.
-GET /api/subscription: Retrieve subscriptions based on filter parameters.
-PATCH /api/subscription: Update existing subscriptions.
-DELETE /api/subscription: Delete subscriptions based on IDs.
+
+**POST /api/subscription: Create new subscriptions.**
+
+## Post Method input
+![Create subscription input](outputViews\images\Post_Input.png)
+
+## Post Method output
+![Create subscription output](outputViews\images\Post_output.png)
+
+
+**GET /api/subscription: Retrieve subscriptions based on filter parameters.**
+
+## Get Method output
+![Get subscription output](outputViews\images\Get_output.png)
+
+**PATCH /api/subscription: Update existing subscriptions.**
+
+## Patch Method input
+![Update subscription input](outputViews\images\Patch_input.png)
+
+## Patch Method output
+![Update subscription output](outputViews\images\Patch_output.png)
+
+**DELETE /api/subscription: Delete subscriptions based on IDs.**
+
+## Delete Method input
+![Delete subscription input](outputViews\images\Delete_input.png)
+
+## Delete Method output
+![Delete subscription output](outputViews\images\Delete_output.png)
+
+
 Refer to the Controller for detailed information on the API endpoints.
 
 **Security**
@@ -65,16 +93,17 @@ The project includes basic authentication using Spring Security. Two user roles 
 **Exception Handling**
 The project includes a global exception handler that deals with validation errors and other exceptions. Validation errors are returned as a list of error messages. Custom error messages are provided for specific scenarios.
 
-    Refer to the Exception Handler for more details.
+   Refer to the Exception Handler for more details.
 
 **Configuration**
-MongoDB Configuration: Update the MongoDB connection details in src/main/resources/application.properties.
+MongoDB Configuration: Update the MongoDB connection details in `src/main/resources/application.properties.`
 
-    Security Configuration: Update user details and roles in EntityAuthentication.
+Security Configuration: Update user details and roles in EntityAuthentication.
 
-    Auditing Configuration: Configure auditing settings in AuditingConfig.
+Auditing Configuration: Configure auditing settings in AuditingConfig.
 
 **Dependencies**
+
 Spring Boot
 Spring Data MongoDB
 Spring Security
@@ -91,7 +120,7 @@ Build the project using Maven:
 
 
 **Run the application:**
-
+   
     mvn spring-boot:run
 
-    The application will start, and you can access the API at http://localhost:8081.
+The application will start, and you can access the API at http://localhost:8081.

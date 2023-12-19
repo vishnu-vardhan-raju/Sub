@@ -164,7 +164,9 @@ public class SubscriptionService {
             if (!updated.getCustomerName().equals(existing.getCustomerName())) {
                 throw new  ValidationException(List.of("Customer name should match with the existing user"));
             }
+
             existing.setUpdatedBy(auditor.myAuditorProvider().getCurrentAuditor().get());
+            
             if (updated.getInvoiceAddress()!=null){
                 existing.setInvoiceAddress(updated.getInvoiceAddress());
             }
