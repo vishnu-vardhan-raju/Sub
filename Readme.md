@@ -4,7 +4,7 @@ This is a Spring Boot project for a Subscription Management System. It provides 
 
 ## Sequence Diagram
 
-![Sequence Diagram](outputViews\images\Sequence_Diagram.png)
+![Sequence Diagram](outputViews\Sequence_Diagram.png)
 
 ## Table of Contents
 
