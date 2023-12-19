@@ -25,8 +25,8 @@ Make sure you have the following installed on your machine:
 
 1. **Clone the repository:**
 
-   git clone https://github.com/yourusername/subscription-management.git
-   cd subscription-management
+   git clone https://github.com/vishnu-vardhan-raju/Sub.git
+   cd Sub
 2. **Update MongoDB configuration:**
 
     Open src/main/resources/application.properties and update the MongoDB connection details if needed.
@@ -36,7 +36,7 @@ Make sure you have the following installed on your machine:
 
 4. **Run the application:**
     mvn spring-boot:run
-    The application will start on http://localhost:8080.
+    The application will start on http://localhost:8081.
 
 
 
@@ -90,4 +90,4 @@ Make sure you have the following installed on your machine:
 
     mvn spring-boot:run
 
-    The application will start, and you can access the API at http://localhost:8080.
+    The application will start, and you can access the API at http://localhost:8081.
