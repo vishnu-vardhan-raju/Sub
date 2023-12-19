@@ -2,6 +2,9 @@
 
 This is a Spring Boot project for a Subscription Management System. It provides RESTful API endpoints for creating, retrieving, updating, and deleting subscriptions. The system uses MongoDB for data storage.
 
+## Sequence Diagram
+![Alt Text](outputViews\images\Subscription Flow Sequence Diagram.png)
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
