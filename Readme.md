@@ -48,32 +48,32 @@ Make sure you have the following installed on your machine:
 **POST /api/subscription: Create new subscriptions.**
 
 ## Post Method input
-![Create subscription input](outputViews\Post_Input.png)
+![Create subscription input](Images\Post_Input.png)
 
 ## Post Method output
-![Create subscription output](outputViews\Post_output.png)
+![Create subscription output](Images\Post_output.png)
 
 
 **GET /api/subscription: Retrieve subscriptions based on filter parameters.**
 
 ## Get Method output
-![Get subscription output](outputViews\Get_output.png)
+![Get subscription output](Images\Get_output.png)
 
 **PATCH /api/subscription: Update existing subscriptions.**
 
 ## Patch Method input
-![Update subscription input](outputViews\Patch_input.png)
+![Update subscription input](Images\Patch_input.png)
 
 ## Patch Method output
-![Update subscription output](outputViews\Patch_output.png)
+![Update subscription output](Images\Patch_output.png)
 
 **DELETE /api/subscription: Delete subscriptions based on IDs.**
 
 ## Delete Method input
-![Delete subscription input](outputViews\Delete_input.png)
+![Delete subscription input](Images\Delete_input.png)
 
 ## Delete Method output
-![Delete subscription output](outputViews\Delete_output.png)
+![Delete subscription output](Images\Delete_output.png)
 
 
 Refer to the Controller for detailed information on the API endpoints.
