@@ -6,6 +6,7 @@ package management.subscription.service;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -24,11 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 import management.subscription.Generic.CommonResponse;
 import management.subscription.entity.Subscription;
+import management.subscription.MongoAuditConfig.AuditingConfig;
+
 
 
 @Service
 @Slf4j
-public class DemoService {
+public class SubscriptionService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -39,11 +42,16 @@ public class DemoService {
     @Autowired
     private validator validator;
 
+    @Autowired
+    private AuditingConfig auditor;
+
     public CommonResponse<List<Subscription>> createSubscription(List<Subscription> Users){
         long startTime = System.currentTimeMillis();
         for(Subscription user : Users){
             validator.subscriptionValidator(user);
             user.setId(sequence.getSequenceNumber(Subscription.Sequence));
+            user.setCreateDate(LocalDateTime.now());
+            user.setCreatedBy(auditor.myAuditorProvider().getCurrentAuditor().get());
         }
         mongoTemplate.insertAll(Users);
         long endTime = System.currentTimeMillis();
@@ -154,10 +162,9 @@ public class DemoService {
 
     public Subscription updateSubscriptionFields(Subscription existing, Subscription updated){
             if (!updated.getCustomerName().equals(existing.getCustomerName())) {
-                log.info(String.valueOf(updated.getCustomerName()));
-                log.info(String.valueOf(existing.getCustomerName()));
                 throw new  ValidationException(List.of("Customer name should match with the existing user"));
             }
+            existing.setUpdatedBy(auditor.myAuditorProvider().getCurrentAuditor().get());
             if (updated.getInvoiceAddress()!=null){
                 existing.setInvoiceAddress(updated.getInvoiceAddress());
             }
@@ -186,10 +193,7 @@ public class DemoService {
             return existing;
     }
 
-    public String customerNotMatch(Subscription update) {
-        return "For ID: {update.getId()} Customer name should match with the existing customer";
-        }
-
+    
     
     public CommonResponse<?> deleteSubscriptions(List<Long> subscriptionIds){
         long startTime = System.currentTimeMillis();

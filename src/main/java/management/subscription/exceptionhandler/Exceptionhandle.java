@@ -1,50 +1,29 @@
 package management.subscription.exceptionhandler;
 
-import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.method.ParameterValidationResult;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import java.util.HashMap;
+
+import management.subscription.service.ValidationException;
+
+
 import java.util.List;
-import java.util.Map;
+
 
 
 
 @RestControllerAdvice
 public class Exceptionhandle {
    
-   @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HandlerMethodValidationException.class)
-    public Map<String, String> handleValidationException(HandlerMethodValidationException ex) {
-        Map<String, String> errorMap = new HashMap<>();
-        
-
-        List<ParameterValidationResult> validationResults = ex.getAllValidationResults();
-        for (ParameterValidationResult validationResult : validationResults) {
-           
-            
-            List<MessageSourceResolvable> resolvableErrors = validationResult.getResolvableErrors();
-            StringBuilder errorMessage = new StringBuilder();
-
-            for (MessageSourceResolvable resolvableError : resolvableErrors) {
-                errorMessage.append(resolvableError.getDefaultMessage()).append("; ");
-            }
-
-            // Remove the trailing "; " if there are any errors
-            if (errorMessage.length() > 0) {
-                errorMessage.setLength(errorMessage.length() - 2);
-            }
-
-            errorMap.put("FieldsMissing" ,errorMessage.toString());
-        }
-
-        return errorMap;
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<List<String>> handleValidationException(ValidationException ex){
+        return ResponseEntity.badRequest().body(ex.getErrorMessages());
     }
 
      @ExceptionHandler(HttpMessageNotReadableException.class)

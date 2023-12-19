@@ -1,0 +1,74 @@
+@startuml Subscription Flow Sequence Diagram
+
+actor User
+participant Controller
+participant SubscriptionService
+participant validator
+participant SequenceGenerator
+participant AuditingConfig
+database MongoTemplate
+
+User -> Controller: POST /api/subscription
+activate Controller
+Controller -> SubscriptionService: createSubscription(Request)
+activate SubscriptionService
+SubscriptionService -> validator: subscriptionValidator
+validator --> SubscriptionService: Validation response
+SubscriptionService -> SequenceGenerator: getSequenceNumber
+activate SequenceGenerator
+SequenceGenerator --> SubscriptionService: Next sequence number
+SubscriptionService -> AuditingConfig: myAuditorProvider
+activate AuditingConfig
+AuditingConfig --> SubscriptionService: Current logged in User
+SubscriptionService -> MongoTemplate: insertAll
+activate MongoTemplate
+MongoTemplate --> SubscriptionService: Created Subscriptions
+deactivate MongoTemplate
+SubscriptionService --> Controller: Response
+deactivate SubscriptionService
+deactivate SequenceGenerator
+deactivate AuditingConfig
+deactivate Controller
+
+User -> Controller: GET /api/subscription
+activate Controller
+Controller -> SubscriptionService: getSubscription(Filtering criteria)
+activate SubscriptionService
+SubscriptionService -> MongoTemplate: find()
+activate MongoTemplate
+MongoTemplate --> SubscriptionService: Subscriptions Based on Filtering
+deactivate MongoTemplate
+SubscriptionService --> Controller: Response
+deactivate SubscriptionService
+deactivate Controller
+
+User -> Controller: PATCH /api/subscription
+activate Controller
+Controller -> SubscriptionService: updateSubscription(Updatables)
+activate SubscriptionService
+SubscriptionService -> MongoTemplate: findById
+activate MongoTemplate
+MongoTemplate --> SubscriptionService: Found existing subscription
+SubscriptionService -> SubscriptionService: updateSubscriptionFields
+SubscriptionService -> MongoTemplate: save(UpdatedSubscriptions)
+deactivate MongoTemplate
+SubscriptionService --> Controller: Response
+deactivate SubscriptionService
+deactivate Controller
+
+User -> Controller: DELETE /api/subscription
+activate Controller
+Controller -> SubscriptionService: deleteSubscriptions(Deletables)
+activate SubscriptionService
+SubscriptionService -> MongoTemplate: finding the subscriptions
+activate MongoTemplate
+MongoTemplate --> SubscriptionService: Founded existing subscriptions
+SubscriptionService -> MongoTemplate: Remove the subscriptions
+activate MongoTemplate
+MongoTemplate --> SubscriptionService: Deleted subscription
+deactivate MongoTemplate
+SubscriptionService --> Controller: Response
+deactivate SubscriptionService
+deactivate Controller
+
+@enduml

@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 import management.subscription.Generic.CommonRequest;
 import management.subscription.Generic.CommonResponse;
 import management.subscription.entity.Subscription;
-import management.subscription.service.DemoService;
-import management.subscription.service.ValidationException;
-
+import management.subscription.service.SubscriptionService;
 import java.util.List;
 import java.util.Map;
 
@@ -30,22 +28,26 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@RequestMapping("/controller")
+@RequestMapping("api/subscriptions")
 public class Controller {
 
     @Autowired
-    private DemoService demoService;
+    private SubscriptionService subscriptionService;
    
 
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody CommonRequest<Subscription> users){
+      long startTime = System.currentTimeMillis();
        try {
-         CommonResponse<List<Subscription>> response =demoService.createSubscription( users.getData());
+         CommonResponse<List<Subscription>> response =subscriptionService.createSubscription( users.getData());
+         long endTime = System.currentTimeMillis();
+        log.info("API response in {} ms", endTime - startTime);
         return ResponseEntity.ok(response);
 
        } catch (Exception e) {
+         log.warn(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
        }
     }
@@ -53,22 +55,28 @@ public class Controller {
     
     @GetMapping
     public ResponseEntity<?> getSubscription(@RequestParam Map<String, Object> filterFields){
+      long startTime = System.currentTimeMillis();
         try {
-          ResponseEntity<?> response = demoService.getSubscription(filterFields);
+          ResponseEntity<?> response = subscriptionService.getSubscription(filterFields);
+            long endTime = System.currentTimeMillis();
+        log.info("API response in {} ms", endTime - startTime);
          return ResponseEntity.ok(response);
         } catch (Exception e) {
-          // TODO: handle exception
-                  return ResponseEntity.badRequest().body(e.getMessage());
-
+          log.warn(e.getMessage());
+         return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PatchMapping
     public ResponseEntity<?> updateSubscription(@Validated @RequestBody CommonRequest<Subscription> Updatables){
+      long startTime = System.currentTimeMillis();
        try {
-        CommonResponse<?> response = demoService.updateSubscrition( Updatables.getData());
+        CommonResponse<?> response = subscriptionService.updateSubscrition( Updatables.getData());
+          long endTime = System.currentTimeMillis();
+        log.info("API response in {} ms", endTime - startTime);
         return ResponseEntity.ok(response);
        } catch (Exception e) {
+          log.warn(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
        }
 
@@ -76,10 +84,14 @@ public class Controller {
 
     @DeleteMapping
     public ResponseEntity<?> deleteSubscription(@Validated @RequestBody CommonRequest<Long> Updatables){
+      long startTime = System.currentTimeMillis();
        try {
-        CommonResponse<?> response = demoService.deleteSubscriptions( Updatables.getData());
+        CommonResponse<?> response = subscriptionService.deleteSubscriptions( Updatables.getData());
+          long endTime = System.currentTimeMillis();
+        log.info("API response in {} ms", endTime - startTime);
         return ResponseEntity.ok(response);
        } catch (Exception e) {
+          log.warn(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
        }
 
