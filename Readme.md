@@ -30,7 +30,7 @@ Make sure you have the following installed on your machine:
 1. **Clone the repository:**
 
    git clone https://github.com/vishnu-vardhan-raju/Sub.git
-   cd Sub
+     cd Sub
 
 2. **Update MongoDB configuration:**
 
